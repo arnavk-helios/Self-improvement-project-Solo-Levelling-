@@ -1,0 +1,135 @@
+// The blueprint of our database.
+// Each "model" below becomes one table (like one sheet in a spreadsheet).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------- PEOPLE ----------
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+
+  questLogs    QuestLog[]
+  xpEvents     XpEvent[]
+  achievements UserAchievement[]
+  bossResults  UserBossResult[]
+}
+
+// ---------- GAME CONTENT (filled by the seed file) ----------
+
+// A daily quest template, e.g. "Complete scheduled workout" = 50 XP
+model Quest {
+  id        String  @id @default(cuid())
+  slug      String  @unique
+  name      String
+  xp        Int
+  category  String
+  active    Boolean @default(true)
+  sortOrder Int     @default(0)
+
+  logs QuestLog[]
+}
+
+// E, D, C, B, A, S, SS, SSS, Monarch
+model Rank {
+  id          String @id @default(cuid())
+  name        String @unique
+  minXp       Int    @unique
+  description String
+  sortOrder   Int
+}
+
+model Achievement {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  name        String
+  xp          Int
+  description String?
+
+  users UserAchievement[]
+}
+
+model BossBattle {
+  id    String @id @default(cuid())
+  slug  String @unique
+  name  String
+  focus String
+  xp    Int    @default(100)
+
+  results UserBossResult[]
+}
+
+// ---------- WHAT USERS DO (created while people use the app) ----------
+
+// "On this date, this user completed this quest."
+model QuestLog {
+  id          String   @id @default(cuid())
+  userId      String
+  questId     String
+  date        DateTime @db.Date
+  completedAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+
+  // You can only complete the same quest once per day
+  @@unique([userId, questId, date])
+  @@index([userId, date])
+}
+
+enum XpSource {
+  QUEST
+  BOSS
+  ACHIEVEMENT
+}
+
+// The XP ledger. We never store "total XP", we add up these events instead.
+model XpEvent {
+  id        String   @id @default(cuid())
+  userId    String
+  source    XpSource
+  sourceId  String?
+  amount    Int
+  date      DateTime @db.Date
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, date])
+}
+
+model UserAchievement {
+  id            String   @id @default(cuid())
+  userId        String
+  achievementId String
+  earnedAt      DateTime @default(now())
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  achievement Achievement @relation(fields: [achievementId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, achievementId])
+}
+
+model UserBossResult {
+  id           String   @id @default(cuid())
+  userId       String
+  bossBattleId String
+  weekStart    DateTime @db.Date
+  cleared      Boolean  @default(false)
+  notes        String?
+
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bossBattle BossBattle @relation(fields: [bossBattleId], references: [id], onDelete: Cascade)
+
+  // One boss battle per user per week
+  @@unique([userId, weekStart])
+}
