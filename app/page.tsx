@@ -1,7 +1,7 @@
 import { prisma } from "../lib/prisma";
 import { getUserStats, toDateOnly } from "../lib/xp";
-import { getDemoUser } from "../lib/demo-user";
-import { toggleQuest } from "./actions";
+import { requireUser } from "../lib/session";
+import { toggleQuest, signOutAction } from "./actions";
 
 // Always fetch fresh numbers from the database.
 export const dynamic = "force-dynamic";
@@ -16,7 +16,8 @@ const CATEGORY_LABELS: Record<string, string> = {
 };
 
 export default async function Home() {
-  const user = await getDemoUser();
+  // Not signed in? This sends the visitor to /login.
+  const user = await requireUser();
   const today = toDateOnly(new Date());
 
   const [quests, logs, stats] = await Promise.all([
@@ -42,6 +43,15 @@ export default async function Home() {
 
   return (
     <main className="shell">
+      <div className="topbar">
+        <span className="brand">Monarch System</span>
+        <form action={signOutAction}>
+          <button type="submit" className="signout">
+            Sign out
+          </button>
+        </form>
+      </div>
+
       <section className="status" aria-label="Your rank">
         <div className="emblem-wrap">
           <div className="emblem">
@@ -57,7 +67,7 @@ export default async function Home() {
         </div>
 
         <div className="status-body">
-          <p className="hunter">{user.name ?? "Hunter"}</p>
+          <p className="hunter">{user.name}</p>
           <p className="rank-title">Rank {rank.current.name}</p>
           <div
             className="bar"
@@ -131,10 +141,6 @@ export default async function Home() {
           </ul>
         </section>
       ))}
-
-      <p className="note">
-        You are playing on a demo account. Sign-in comes in a later step.
-      </p>
     </main>
   );
 }

@@ -1,4 +1,4 @@
-@import "tailwindcss";
+    @import "tailwindcss";
 
 :root {
   --void: #07060f;
@@ -277,4 +277,40 @@ body {
   * {
     transition: none !important;
   }
+}
+
+/* ---------- Top bar and sign-out ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.brand {
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.signout {
+  padding: 0.45rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--dim);
+  cursor: pointer;
+  background: none;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.signout:hover {
+  color: var(--text);
+  border-color: rgba(168, 85, 247, 0.65);
+}
+
+.signout:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
 }

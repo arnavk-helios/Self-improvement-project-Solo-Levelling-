@@ -1,0 +1,118 @@
+.auth-shell {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 2rem 1.25rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem 1.75rem;
+  background: linear-gradient(135deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(168, 85, 247, 0.14);
+}
+
+.auth-emblem {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+}
+
+.auth-card h1 {
+  margin: 0 0 0.35rem;
+  font-size: 1.6rem;
+  text-align: center;
+}
+
+.auth-sub {
+  margin: 0 0 1.5rem;
+  font-size: 0.95rem;
+  text-align: center;
+  color: var(--dim);
+}
+
+.field {
+  display: grid;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.field label {
+  font-size: 0.9rem;
+  color: var(--dim);
+}
+
+.field input {
+  width: 100%;
+  padding: 0.75rem 0.85rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--void);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.field input:focus {
+  outline: none;
+  border-color: var(--aqua);
+  box-shadow: 0 0 0 3px rgba(34, 229, 255, 0.18);
+}
+
+.auth-error {
+  margin: 0 0 1rem;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.9rem;
+  color: #ff8fb1;
+  background: rgba(255, 80, 130, 0.08);
+  border: 1px solid rgba(255, 80, 130, 0.4);
+  border-radius: 3px;
+}
+
+.auth-submit {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--void);
+  cursor: pointer;
+  background: linear-gradient(90deg, var(--violet), var(--aqua));
+  border: 0;
+  border-radius: 3px;
+  box-shadow: 0 0 18px rgba(168, 85, 247, 0.35);
+  transition: box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.auth-submit:hover {
+  box-shadow: 0 0 24px rgba(34, 229, 255, 0.45);
+}
+
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.auth-submit:focus-visible,
+.auth-switch:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 2px;
+}
+
+.auth-switch {
+  display: block;
+  margin: 1.25rem auto 0;
+  padding: 0.3rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--aqua);
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+
+.auth-switch:hover {
+  text-decoration: underline;
+}
