@@ -97,6 +97,7 @@ enum XpSource {
   QUEST
   BOSS
   ACHIEVEMENT
+  BONUS
 }
 
 // The XP ledger. We never store "total XP", we add up these events instead.
