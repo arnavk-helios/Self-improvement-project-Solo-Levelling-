@@ -1,0 +1,236 @@
+/* Navigation links (used on the quest board and the history page) */
+
+.nav {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.nav a {
+  padding: 0.3rem 0;
+  font-size: 0.95rem;
+  color: var(--dim);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.nav a:hover {
+  color: var(--text);
+}
+
+.nav a[aria-current="page"] {
+  color: var(--aqua);
+  border-bottom-color: var(--aqua);
+}
+
+.nav a:focus-visible {
+  outline: 2px solid var(--aqua);
+  outline-offset: 3px;
+}
+
+/* Stat tiles */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin: 0 0 1.5rem;
+}
+
+.stat {
+  padding: 0.9rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--violet);
+  border-radius: 3px;
+}
+
+.stat dt {
+  font-size: 0.85rem;
+  color: var(--dim);
+}
+
+.stat dd {
+  margin: 0.25rem 0 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--aqua);
+}
+
+/* Panels */
+
+.panel {
+  margin-bottom: 1.5rem;
+  padding: 1.25rem;
+  background: linear-gradient(135deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.panel-title {
+  margin: 0 0 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.empty {
+  margin: 0;
+  color: var(--dim);
+}
+
+.empty a {
+  color: var(--aqua);
+}
+
+/* Heatmap: 12 weeks, each column is one week (Monday at the top) */
+
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: repeat(7, auto);
+  grid-auto-flow: column;
+  gap: 4px;
+}
+
+.cell {
+  aspect-ratio: 1;
+  border-radius: 3px;
+}
+
+.cell.lvl-0 {
+  background: var(--void);
+  border: 1px solid var(--line);
+}
+
+.cell.lvl-1 {
+  background: rgba(168, 85, 247, 0.35);
+}
+
+.cell.lvl-2 {
+  background: rgba(168, 85, 247, 0.8);
+}
+
+.cell.lvl-3 {
+  background: rgba(34, 229, 255, 0.6);
+}
+
+.cell.lvl-4 {
+  background: var(--aqua);
+  box-shadow: 0 0 10px rgba(34, 229, 255, 0.6);
+}
+
+.cell.future {
+  visibility: hidden;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 0.9rem;
+  font-size: 0.8rem;
+  color: var(--dim);
+}
+
+.legend .cell {
+  width: 14px;
+  height: 14px;
+  aspect-ratio: auto;
+}
+
+.legend span:first-child {
+  margin-right: 0.3rem;
+}
+
+.legend span:last-child {
+  margin-left: 0.3rem;
+}
+
+/* Bars: XP per day */
+
+.bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 160px;
+}
+
+.bar-col {
+  display: flex;
+  flex: 1;
+  align-items: flex-end;
+  height: 100%;
+}
+
+.bar-col-fill {
+  width: 100%;
+  background: linear-gradient(0deg, var(--violet), var(--aqua));
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 0 8px rgba(34, 229, 255, 0.35);
+  transition: height 0.6s ease;
+}
+
+.bar-col-fill.empty {
+  background: var(--line);
+  box-shadow: none;
+}
+
+.bars-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--dim);
+}
+
+/* Recent days */
+
+.recent {
+  display: grid;
+  gap: 0.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.recent li {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.recent li:last-child {
+  border-bottom: 0;
+}
+
+.recent-date {
+  font-weight: 600;
+}
+
+.recent-quests {
+  font-size: 0.9rem;
+  color: var(--dim);
+}
+
+.recent-xp {
+  font-weight: 600;
+  color: var(--aqua);
+}
+
+@media (max-width: 620px) {
+  .stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .recent li {
+    grid-template-columns: 1fr auto;
+  }
+
+  .recent-quests {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

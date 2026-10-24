@@ -27,6 +27,8 @@ model User {
   xpEvents     XpEvent[]
   achievements UserAchievement[]
   bossResults  UserBossResult[]
+  sentRequests     Friendship[] @relation("FriendRequester")
+  receivedRequests Friendship[] @relation("FriendAddressee")
 }
 
 // ---------- GAME CONTENT (filled by the seed file) ----------
@@ -176,4 +178,25 @@ model Verification {
   expiresAt  DateTime
   createdAt  DateTime? @default(now())
   updatedAt  DateTime? @updatedAt
+}
+// ---------- COMMUNITY ----------
+
+enum FriendStatus {
+  PENDING
+  ACCEPTED
+}
+
+model Friendship {
+  id          String       @id @default(cuid())
+  requesterId String
+  addresseeId String
+  status      FriendStatus @default(PENDING)
+  createdAt   DateTime     @default(now())
+
+  requester User @relation("FriendRequester", fields: [requesterId], references: [id], onDelete: Cascade)
+  addressee User @relation("FriendAddressee", fields: [addresseeId], references: [id], onDelete: Cascade)
+
+  // One request per pair, per direction
+  @@unique([requesterId, addresseeId])
+  @@index([addresseeId])
 }

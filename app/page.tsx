@@ -1,7 +1,8 @@
 import { prisma } from "../lib/prisma";
 import { getUserStats, toDateOnly } from "../lib/xp";
 import { requireUser } from "../lib/session";
-import { toggleQuest, signOutAction } from "./actions";
+import { toggleQuest } from "./actions";
+import TopBar from "./TopBar";
 
 // Always fetch fresh numbers from the database.
 export const dynamic = "force-dynamic";
@@ -43,14 +44,7 @@ export default async function Home() {
 
   return (
     <main className="shell">
-      <div className="topbar">
-        <span className="brand">Monarch System</span>
-        <form action={signOutAction}>
-          <button type="submit" className="signout">
-            Sign out
-          </button>
-        </form>
-      </div>
+      <TopBar active="quests" />
 
       <section className="status" aria-label="Your rank">
         <div className="emblem-wrap">
@@ -144,3 +138,4 @@ export default async function Home() {
     </main>
   );
 }
+
